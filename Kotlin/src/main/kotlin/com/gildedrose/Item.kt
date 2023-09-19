@@ -1,7 +1,13 @@
 package com.gildedrose
 
-open class Item(var name: String, var sellIn: Int, var quality: Int) {
+import com.gildedrose.enum.ItemName
+
+open class Item(
+    var name: ItemName,
+    var sellIn: Int,
+    var quality: Int
+) {
     override fun toString(): String {
-        return this.name + ", " + this.sellIn + ", " + this.quality
+        return this.name.toString() + ", " + this.sellIn + ", " + this.quality
     }
 }
