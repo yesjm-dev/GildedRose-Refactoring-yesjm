@@ -1,44 +1,41 @@
 package com.gildedrose
 
-import com.gildedrose.enum.ItemName
-
 class GildedRose(var items: List<Item>) {
     fun updateQuality() {
-        for (i in items.indices) {
-            if (items[i].name != ItemName.SULFURAS) {
-                items[i].sellIn = items[i].sellIn - 1
+        items.forEach { item ->
+            if (item.name == "Sulfuras, Hand of Ragnaros") {
+                sulfuras(item)
             }
-            if (items[i].name != ItemName.AGED_BRIE && items[i].name != ItemName.BACKSTAGE_PASSES) {
-                if (items[i].name != ItemName.SULFURAS) {
-                    items[i].quality = minusQuality(items[i].quality)
-                }
-            } else {
-                items[i].quality = plusQuality(items[i].quality)
-
-                if (items[i].name == ItemName.BACKSTAGE_PASSES) {
-                    if (items[i].sellIn < 11) {
-                        items[i].quality = plusQuality(items[i].quality)
-                    }
-
-                    if (items[i].sellIn < 6) {
-                        items[i].quality = plusQuality(items[i].quality)
-                    }
-                }
+            if (item.name == "Aged Brie") {
+                agedBrie(item)
             }
-
-            if (items[i].sellIn < 0) {
-                if (items[i].name != ItemName.AGED_BRIE) {
-                    if (items[i].name != ItemName.BACKSTAGE_PASSES) {
-                        if (items[i].name != ItemName.SULFURAS) {
-                            items[i].quality = minusQuality(items[i].quality)
-                        }
-                    } else {
-                        items[i].quality = items[i].quality - items[i].quality
-                    }
-                } else {
-                    items[i].quality = plusQuality(items[i].quality)
-                }
+            if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
+                backstagePasses(item)
             }
+        }
+    }
+
+    private fun agedBrie(item: Item) {
+        item.sellIn = item.sellIn - 1
+        item.quality = plusQuality(item.quality)
+    }
+
+    private fun sulfuras(item: Item) {
+        item.sellIn = item.sellIn - 1
+    }
+
+    private fun backstagePasses(item: Item) {
+        item.sellIn = item.sellIn - 1
+        if (item.sellIn > 10) {
+            item.quality = item.quality + 1
+        }
+        if (item.sellIn > 5) {
+            item.quality = item.quality + 2
+        }
+        if (item.sellIn > 0) {
+            item.quality = item.quality + 3
+        } else {
+            item.quality = 0
         }
     }
 
@@ -50,10 +47,13 @@ class GildedRose(var items: List<Item>) {
         }
     }
 
-    private fun minusQuality(quality: Int): Int {
+    private fun minusQuality(quality: Int, sellIn: Int): Int {
         return if (quality <= 0) {
             quality
         } else {
+            if (sellIn < 0) {
+                quality - quality
+            }
             quality - 1
         }
     }
