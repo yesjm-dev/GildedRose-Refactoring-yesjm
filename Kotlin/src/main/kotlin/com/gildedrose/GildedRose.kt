@@ -2,45 +2,52 @@ package com.gildedrose
 
 class GildedRose(var items: List<Item>) {
     fun updateQuality() {
-        items.forEach { item ->
-            if (item.name == "Sulfuras, Hand of Ragnaros") {
-                sulfuras(item)
+        items.forEach {
+            val item: Item = when (it.name) {
+                "Sulfuras, Hand of Ragnaros" -> sulfuras(it)
+                "Aged Brie" -> agedBrie(it)
+                "Backstage passes to a TAFKAL80ETC concert" -> backstagePasses(it)
+                else -> anyItem(it)
             }
-            if (item.name == "Aged Brie") {
-                agedBrie(item)
-            }
-            if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
-                backstagePasses(item)
-            }
+            it.name = item.name
+            it.quality = item.quality
+            it.sellIn = item.sellIn
         }
     }
 
-    private fun agedBrie(item: Item) {
+    private fun agedBrie(item: Item): Item {
         item.sellIn = item.sellIn - 1
         item.quality = plusQuality(item.quality)
+        return item
     }
 
-    private fun sulfuras(item: Item) {
+    private fun sulfuras(item: Item): Item {
         item.sellIn = item.sellIn - 1
+        return item
     }
 
-    private fun backstagePasses(item: Item) {
+    private fun backstagePasses(item: Item): Item {
         item.sellIn = item.sellIn - 1
         if (item.sellIn > 10) {
             item.quality = item.quality + 1
-        }
-        if (item.sellIn > 5) {
+        } else if (item.sellIn > 5) {
             item.quality = item.quality + 2
-        }
-        if (item.sellIn > 0) {
+        } else if (item.sellIn > 0) {
             item.quality = item.quality + 3
         } else {
             item.quality = 0
         }
+        return item
+    }
+
+    private fun anyItem(item: Item): Item {
+        item.sellIn = item.sellIn - 1
+        item.quality = minusQuality(item.quality, item.sellIn)
+        return item
     }
 
     private fun plusQuality(quality: Int): Int {
-        return if (quality in 1..49) {
+        return if (quality < 50) {
             quality + 1
         } else {
             quality
@@ -48,13 +55,13 @@ class GildedRose(var items: List<Item>) {
     }
 
     private fun minusQuality(quality: Int, sellIn: Int): Int {
-        return if (quality <= 0) {
-            quality
+        if (quality <= 0) {
+            return quality
         } else {
-            if (sellIn < 0) {
-                quality - quality
+            if (sellIn <= 0) {
+                return quality - 2
             }
-            quality - 1
+            return quality - 1
         }
     }
 
