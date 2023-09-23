@@ -23,11 +23,11 @@ class GildedRose(var items: List<Item>) {
 
     private fun backstagePasses(item: Item): Item {
         if (item.sellIn > 10) {
-            item.quality = item.quality + 1
+            item.quality = plusQuality(item.quality, 1)
         } else if (item.sellIn > 5) {
-            item.quality = item.quality + 2
+            item.quality = plusQuality(item.quality, 2)
         } else if (item.sellIn > 0) {
-            item.quality = item.quality + 3
+            item.quality = plusQuality(item.quality, 3)
         } else {
             item.quality = 0
         }
@@ -44,9 +44,9 @@ class GildedRose(var items: List<Item>) {
         return item
     }
 
-    private fun plusQuality(quality: Int): Int {
+    private fun plusQuality(quality: Int, value: Int = 1): Int {
         return if (quality < 50) {
-            quality + 1
+            quality + value
         } else {
             quality
         }

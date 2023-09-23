@@ -102,7 +102,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `Backstage passes는 sellIn이 0인 경우 Quality 값이 0이 된다`() {
+    fun `Backstage passes는 sellIn이 ~0인 경우 Quality 값이 0이 된다`() {
         val items = listOf(Item("Backstage passes to a TAFKAL80ETC concert", 0, 49))
         val app = GildedRose(items)
         app.updateQuality()
