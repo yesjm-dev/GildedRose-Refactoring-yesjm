@@ -15,7 +15,7 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `Item의 Quality는 50을 초과하지 않는다`() {
+    fun `sulfuras를 제외한 Item의 Quality는 50을 초과하지 않는다`() {
         val items = listOf(Item("Aged Brie", 0, 50))
         val app = GildedRose(items)
         app.updateQuality()
@@ -77,6 +77,19 @@ internal class GildedRoseTest {
             .also { println("quality: ${app.items[0].quality}") }
     }
 
+    @Test
+    fun `conjured는 일반 아이템보다 Quality 값이 2배로 떨어진다`() {
+        val items = listOf(
+            Item("Conjured Mana Cake", 1, 10),
+            Item("Conjured Mana Cake", -1, 10),
+        )
+        val app = GildedRose(items)
+        app.updateQuality()
+        assertEquals(8, app.items[0].quality)
+            .also { println("quality: ${app.items[0].quality}") }
+        assertEquals(6, app.items[1].quality)
+            .also { println("quality: ${app.items[1].quality}") }
+    }
 }
 
 
