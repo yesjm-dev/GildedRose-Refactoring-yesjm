@@ -4,7 +4,7 @@ class GildedRose(var items: List<Item>) {
     fun updateQuality() {
         items.forEach {
             val item: Item = when (it.name) {
-                "Sulfuras, Hand of Ragnaros" -> sulfuras(it)
+                "Sulfuras, Hand of Ragnaros" -> it
                 "Aged Brie" -> agedBrie(it)
                 "Backstage passes to a TAFKAL80ETC concert" -> backstagePasses(it)
                 "Conjured Mana Cake" -> conjured(it)
@@ -18,10 +18,6 @@ class GildedRose(var items: List<Item>) {
 
     private fun agedBrie(item: Item): Item {
         item.quality = plusQuality(item.quality)
-        return item
-    }
-
-    private fun sulfuras(item: Item): Item {
         return item
     }
 
